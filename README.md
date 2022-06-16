@@ -63,4 +63,5 @@ washington.csv
 
 ### Credits
 1. https://pandas.pydata.org/docs/user_guide/index.html#user-guide
+2. Got some cool tricks from the Bikeshare review
 
