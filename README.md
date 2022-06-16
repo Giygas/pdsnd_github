@@ -1,7 +1,6 @@
 ### Date created
 Created 15 June 2022
 
-### Project Title
 ## Bike Share Data
 
 ### Description
