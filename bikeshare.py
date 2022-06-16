@@ -23,9 +23,9 @@ def clrscr():
         _ = system('clear')
 
 
-CITY_DATA = {'chicago': 'data/chicago.csv',
-                'new york city': 'data/new_york_city.csv',
-                'washington': 'data/washington.csv'}
+CITY_DATA = {'chicago': 'chicago.csv',
+                'new york city': 'new_york_city.csv',
+                'washington': 'washington.csv'}
 
 
 def get_filters():
@@ -247,6 +247,7 @@ def user_stats(df):
 
 def show_raw_data(df):
     """Displays the raw data to the user"""
+    
     x = 0
     rd = df.drop(['month', 'day_of_week', 'diff_min'], axis=1)
     rd.rename(columns={'Unnamed: 0': 'Id'}, inplace=True)
@@ -286,12 +287,12 @@ def main():
             print("\n* THERE IS NO USER DATA FOR WASHINGTON *\n")
             
         # Request for raw data
-        raw_data = input("Would you like to see raw data? Enter yes or no: ").lower().strip()
+        raw_data = input("Would you like to see raw data? Yes to continue: ").lower().strip()
         if raw_data == 'yes':
             print("Raw Data:\n")
             show_raw_data(df)
         # Request for restart
-        restart = input('\nWould you like to restart? Enter yes or no.\n').lower().strip()
+        restart = input('\nWould you like to restart? Yes to continue: ').lower().strip()
         if restart.lower() != 'yes':
             break
 
