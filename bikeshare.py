@@ -23,9 +23,9 @@ def clrscr():
         _ = system('clear')
 
 
-CITY_DATA = {'chicago': 'data/chicago.csv',
-                'new york city': 'data/new_york_city.csv',
-                'washington': 'data/washington.csv'}
+CITY_DATA = {'chicago': 'chicago.csv',
+                'new york city': 'new_york_city.csv',
+                'washington': 'washington.csv'}
 
 
 def get_filters():
