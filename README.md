@@ -56,8 +56,11 @@ You will learn about bike share use in Chicago, New York City, and Washington by
     earliest, most recent, most common year of birth (only available for NYC and Chicago)
 
 ### Files used
-Include the files used
+Bikeshare data of Chicago, New York City and Washington in csv format located in
+data/chicago.csv
+data/new_york_city.csv
+data/washington.csv
 
 ### Credits
-It's important to give proper credit. Add links to any repo that inspired you or blogposts you consulted.
+1. https://pandas.pydata.org/docs/user_guide/index.html#user-guide
 
