@@ -7,9 +7,9 @@ pd.set_option('display.max_rows', 10)
 pd.set_option('colheader_justify', 'center')
 
 # all possible month and day selections
-months = ['January', 'February', 'March', 'April', 'May', 'June']
-days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday',
-        'Sunday']
+months = ['january', 'february', 'march', 'april', 'may', 'june']
+days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday',
+        'sunday']
 
 
 def clrscr():
@@ -28,6 +28,63 @@ CITY_DATA = {'chicago': 'chicago.csv',
                 'washington': 'washington.csv'}
 
 
+def check_data_entry(prompt, valid_entries): 
+    """
+    Asks user to type some input and verify if the entry typed is valid.
+    Since we have 3 inputs to ask the user in get_filters(), it is easier to write a function.
+    Args:
+        (str) prompt - message to display to the user
+        (list) valid_entries - list of string that should be accepted 
+    Returns:
+        (str) user_input - the user's valid input
+    """
+    try:
+        user_input = str(input(prompt)).lower().strip()
+
+        while user_input not in valid_entries: 
+            if user_input == 'c':
+                user_input = 'chicago'
+            elif user_input == 'n':
+                user_input = 'new york city'
+            elif user_input == 'w':
+                user_input = 'washington'
+            else:
+                print('Sorry... it seems like you\'re not typing a correct entry.')
+                print('Let\'s try again!')
+                user_input = str(input(prompt)).lower().strip()
+
+        print('\nGreat! the chosen entry is: {}\n'.format(user_input.title()))
+        time.sleep(2)
+        return user_input
+
+    except:
+        print('Seems like there is an issue with your input')
+
+def print_filters(city = '', month = '', day = ''):
+    """
+        Prints the current filters applied
+        Args:
+            (optional) (str) city - name of the city to analyze
+            (optional) (str) month - name of the month to filter by, or "all" for no month filter
+            (optional) (str) day - name of the day of week to filter by, or "all" for no day filter    
+    """
+    
+    clrscr()
+    print('Hello! Let\'s explore some US bikeshare data!')
+    print('='*70)
+    # Prints the filters set
+    if city:
+        clrscr()
+        print('Exploring US bikeshare data for', city.title())
+        print('='*70)
+    if month:
+        print("Month:  ", month.title())
+        print('-'*70)
+    if day:
+        print('Day: ', day.title())
+        print('-'*70)
+            
+    
 def get_filters():
     """
     Asks user to specify a city, month, and day to analyze.
@@ -42,79 +99,44 @@ def get_filters():
     day = "all"
 
     # a list containing the differents input possibilities for city
-    cities = ['chicago', 'new', 'new york', 'new york city', 'washington', 'c', 'n', 'w']
+    cities = ['chicago', 'new york city', 'washington']
 
-    # get user input for city (chicago, new york city, washington). HINT: Use a while loop to handle invalid inputs
-    while True:
-        clrscr()
-        print('Hello! Let\'s explore some US bikeshare data!')
-        print('='*70)
-        city = input("You want to see data from wich city? (Chicago, New York City, Washington): ").lower().strip()
-        # if the input is in the list of valid options, standarize the name of the city
-        if city in cities:
-            if city == 'c':
-                city = 'chicago'
-            elif city == 'new' or city == 'new york' or city == 'n':
-                city = 'new york city'
-            elif city == 'w':
-                city = 'washington'
-            break
-        print("Sorry, you must input a valid city, try again ")
-        time.sleep(2)
+    # get user input for city (chicago, new york city, washington)
+    print_filters()
+    prompt = "You want to see data from wich city? ([C]hicago, [N]ew York City, [W]ashington): "
+    
+    # Check the data entry for city
+    city = check_data_entry(prompt, cities)
 
     # Get the filter for month, day or both
-    print('City selected:', city.title())
-    while True:
-        data_filter = input("Would you like to filter by month, day, both or none: ").lower().strip()
-        filter_options = ['month', 'day', 'both', 'none']
-        if data_filter in filter_options:
-            break
-        else:
-            print("Sorry, you must input month, day, both or none, try again\n")
-            time.sleep(1)
+    print_filters(city)
+    prompt = "Would you like to filter by month, day, both or none: "
+    filter_options = ['month', 'day', 'both', 'none']
+    data_filter = check_data_entry(prompt, filter_options)
 
     # get user input for month (all, january, february, ... , june)
     if data_filter == 'month' or data_filter == 'both':
-        while True:
-            clrscr()
-            print('Hello! Let\'s explore some US bikeshare data!')
-            print('City selected:', city.title())
-            print('='*70)
-            print("For witch month you do want to see the data? You can choose: ")
-            print('\t', *months, sep=' | ')
-
-            month = input("Your choice: ").lower().strip()
-            if month.title() not in months:
-                print("Sorry, you must input a valid month, try again")
-                time.sleep(2)
-            else:
-                break
+        print_filters(city)
+        prompt = "For witch month you do want to see the data? You can choose: \n\t| "
+        # Concatenate every element in the list to the prompt
+        for x in months:
+            prompt += f"{x.title()} | "
+        prompt += "\nYour choice: "
+            
+        month = check_data_entry(prompt, months)
 
     # get user input for day of week (all, monday, tuesday, ... sunday)
     if data_filter == 'day' or data_filter == 'both':
-        while True:
-            clrscr()
-            print('Hello! Let\'s explore some US bikeshare data!')
-            print('City selected: ', city.title())
-            print("Month selected: ", month.title())
-            print('='*70)
-            print("For witch day you do want to see the data? You can choose: ")
-            print("\t", *days, sep=' | ')
+       print_filters(city,month)
+        
+       prompt = "For witch day you do want to see the data? You can choose:  \n\t| "
+        # Concatenate every element in the list to the prompt
+       for x in days:
+           prompt += f"{x.title()} | "
+       prompt += "\nYour choice: "
+           
+       day = check_data_entry(prompt, days)
 
-            day = input("Your choice: ").lower()
-            if day.title() not in days:
-                print("Sorry, you must input a valid day, try again")
-                time.sleep(2)
-            else:
-                break
-
-    # show the city and filters
-    clrscr()
-    print('Exploring US bikeshare data for ', city.title())
-    print("Month: ", month.title())
-    print('Day: ', day.title())
-    time.sleep(1)
-    print('='*70)
     return city, month, day
 
 
@@ -143,7 +165,7 @@ def load_data(city, month, day):
     # filter by month if applicable
     if month != 'all':
         # use the index of the months list to get the corresponding int
-        month = months.index(month.title()) + 1
+        month = months.index(month) + 1
         # filter by month to create the new dataframe
         df = df[df['month'] == month]
 
@@ -275,6 +297,7 @@ def main():
 
     while True:
         city, month, day = get_filters() # Get the user filters
+        print_filters(city, month, day) #Print the user filters
         df = load_data(city, month, day) # Apply the user filters
         #Show all stats
         time_stats(df)
